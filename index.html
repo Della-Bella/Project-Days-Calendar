@@ -5,6 +5,7 @@
         <script type="module" src="web.mjs"></script>
     </head>
     <body>
+        <div id="greeting-message"></div>
         <h1>Calendar</h1>
         
         <!-- Navigation Buttons -->
@@ -21,7 +22,7 @@
         <button id="jumpTo">Go</button>
         
         <!-- Calendar Display -->
-        <table border="1">
+        <table border="1" id="calendar">
             <thead>
                 <tr>
                     <th>Monday</th>
@@ -38,6 +39,12 @@
             </tbody>
         </table>
         
+        <!-- Section for Commemorative Days -->
+        <div id="commemorativeDays">
+            <h2>Commemorative Days</h2>
+            <ul id="eventsList"></ul>
+        </div>
         <!-- <script src="script.js"></script> -->
+         
     </body>
 </html>
