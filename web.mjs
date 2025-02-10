@@ -5,7 +5,25 @@
 
 import { getGreeting } from "./common.mjs";
 import daysData from "./days.json" with { type: "json" };
+import { generateCalendar } from "./calendar.mjs";
+import { generateICalContent } from "./generate-ical.mjs";
 
-window.onload = function() {
-    document.querySelector("body").innerText = `${getGreeting()} - there are ${daysData.length} known days`;
-}
+window.onload = function () {
+
+   //calendar
+   const currentDate = new Date();
+   generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
+
+   //Populate Commemorative Days
+   const eventsList = document.getElementById("eventsList");
+
+   daysData.forEach((day) => {
+      const listItem = document.createElement("li");
+      listItem.textContent = `${day.name} - ${day.date}`; 
+      eventsList.appendChild(listItem);
+   });
+
+   //icall content :
+   const icalData = generateICalContent(daysData); 
+   console.log(icalData);
+};
