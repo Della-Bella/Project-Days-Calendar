@@ -1,0 +1,25 @@
+{
+  "name": "project-days-calendar",
+  "version": "1.0.0",
+  "description": "Project: Days Calendar",
+  "main": "web.mjs",
+  "scripts": {
+    "start": "node web.mjs",
+    "dev": "nodemon web.mjs",
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Della-Bella/Project-Days-Calendar.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Della-Bella/Project-Days-Calendar/issues"
+  },
+  "homepage": "https://github.com/Della-Bella/Project-Days-Calendar#readme",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
