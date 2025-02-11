@@ -90,4 +90,69 @@ function changeMonth(offset) {
 
     createCalendar(year, month);
 }
+
+// Day names array
+const DaysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+
+// Function to create the calendar table
+function createCalendar(year, month) {
+    let calendarContainer = document.getElementById("calendar");
+
+    if (!calendarContainer) {
+        calendarContainer = document.createElement("div");
+        calendarContainer.id = "calendar";
+        document.body.appendChild(calendarContainer);
+    }
+
+    calendarContainer.innerHTML = ""; // Clear previous calendar
+    const table = document.createElement("table");
+
+    // Header row for day names
+    const headerRow = document.createElement("tr");
+    DaysOfWeek.forEach(day => {
+        const th = document.createElement("th");
+        th.textContent = day;
+        headerRow.appendChild(th);
+    });
+    table.appendChild(headerRow);
+
+    // Get first day of the month and total days
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    let row = document.createElement("tr");
+    let dayCounter = 1;
+
+    // Empty cells before first day
+    for (let i = 0; i < (firstDay === 0 ? 6 : firstDay - 1); i++) {
+        row.appendChild(document.createElement("td"));
+    }
+
+    // Fill in the days of the month
+    for (let i = (firstDay === 0 ? 6 : firstDay - 1); i < 7; i++) {
+        const cell = document.createElement("td");
+        cell.textContent = dayCounter++;
+        row.appendChild(cell);
+    }
+    table.appendChild(row);
+
+    // Continue adding rows
+    while (dayCounter <= daysInMonth) {
+        row = document.createElement("tr");
+        for (let i = 0; i < 7 && dayCounter <= daysInMonth; i++) {
+            const cell = document.createElement("td");
+            cell.textContent = dayCounter++;
+            row.appendChild(cell);
+        }
+        table.appendChild(row);
+    }
+
+    // Append the table
+    calendarContainer.appendChild(table);
+}
+
+
 createSelectors();
+changeMonth();
+createCalendar();
