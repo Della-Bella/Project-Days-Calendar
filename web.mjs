@@ -146,9 +146,25 @@ function createCalendar(year, month) {
     // Append the table
     calendarContainer.appendChild(table);
 }
+// Event listener for dropdown changes
+document.addEventListener("change", () => {
+    const month = parseInt(document.getElementById("monthSelect").value);
+    const year = parseInt(document.getElementById("yearSelect").value);
+    createCalendar(year, month);
+});
 
+// Initialize everything on page load
+window.onload = function () {
+    // Display greeting message
+    // document.querySelector("body").innerText = `${getGreeting()} - there are ${daysData.length} known days`;
 
-createSelectors();
-changeMonth();
-createCalendar();
+    createSelectors(); // Create dropdowns
 
+    // Set current month and year
+    const currentDate = new Date();
+    document.getElementById("monthSelect").value = currentDate.getMonth();
+    document.getElementById("yearSelect").value = currentDate.getFullYear();
+
+    // Generate the calendar
+    createCalendar(currentDate.getFullYear(), currentDate.getMonth());
+};
