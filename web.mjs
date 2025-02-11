@@ -70,4 +70,24 @@ function createSelectors() {
     document.body.appendChild(container);
 }
 
+// Function to change the month
+function changeMonth(offset) {
+    let month = parseInt(document.getElementById("monthSelect").value);
+    let year = parseInt(document.getElementById("yearSelect").value);
+
+    month += offset;
+
+    if (month < 0) {
+        month = 11;
+        year--;
+    } else if (month > 11) {
+        month = 0;
+        year++;
+    }
+
+    document.getElementById("monthSelect").value = month;
+    document.getElementById("yearSelect").value = year;
+
+    createCalendar(year, month);
+}
 createSelectors();
