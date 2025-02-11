@@ -2,20 +2,15 @@
 // It can be loaded into index.html.
 // Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
 // You can't open the index.html file using a file:// URL.
-
-// import { getGreeting } from "./common.mjs";
-// import daysData from "./days.json" with { type: "json" };
-
-// window.onload = function() {
-//     document.querySelector("body").innerText = `${getGreeting()} - there are ${daysData.length} known days`;
-
-
 // // to run the code in the terminal we need to remove window.onload which run in the server https
 // // console.log(`${getGreeting()} - there are ${daysData.length} known days`);
 
-// Import functions and JSON data
+
 // import { getGreeting } from "./common.mjs";
 import daysData from "./days.json" with { type: "json" };
+import { generateCalendar } from "./calendar.mjs";
+import { generateICalContent } from "./generate-ical.mjs";
+
 
 // Month names array
 const Months = [
@@ -156,3 +151,4 @@ function createCalendar(year, month) {
 createSelectors();
 changeMonth();
 createCalendar();
+
