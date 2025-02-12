@@ -84,14 +84,11 @@ function getDateByOccurrence(year, monthName, dayName, occurrence) {
    return foundDate;
 }
 
-function formatDateForICal(date) {
+function formatDateForICalDateOnly(date) {
    const year = date.getUTCFullYear();
    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
    const day = String(date.getUTCDate()).padStart(2, "0");
-   const hours = "00";
-   const minutes = "00";
-   const seconds = "00";
-   return `${year}${month}${day}T${hours}${minutes}${seconds}Z`;
+   return `${year}${month}${day}`; // No time component
 }
 
 function generateIcalContent(events, startYear, endYear) {
@@ -116,14 +113,14 @@ CALSCALE:GREGORIAN
          }
 
          const uid = uuidv4();
-         const startFormatted = formatDateForICal(eventDate);
-         const endFormatted = formatDateForICal(eventDate);
+         const startFormatted = formatDateForICalDateOnly(eventDate);
+         const endFormatted = formatDateForICalDateOnly(eventDate);
 
          icalContent += `BEGIN:VEVENT
 UID:${uid}
-DTSTAMP:${formatDateForICal(new Date())}
-DTSTART:${startFormatted}
-DTEND:${endFormatted}
+DTSTAMP:${formatDateForICalDateOnly(new Date())}
+DTSTART;VALUE=DATE:${startFormatted}
+DTEND;VALUE=DATE:${endFormatted}
 SUMMARY:${eventData.name}
 DESCRIPTION:${eventData.descriptionURL ? eventData.descriptionURL : ""}
 END:VEVENT

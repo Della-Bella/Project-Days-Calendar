@@ -1,5 +1,3 @@
-// web.mjs
-
 import daysData from "./days.json" with { type: "json" };
 
 // Month names array
@@ -110,12 +108,14 @@ function generateCalendar(year, month) {
 
    calendarContainer.innerHTML = ""; // Clear previous calendar
    const table = document.createElement("table");
+   table.style.borderCollapse = "collapse"; // Add this line
 
    // Header row for day names
    const headerRow = document.createElement("tr");
    DaysOfWeek.forEach((day) => {
       const th = document.createElement("th");
       th.textContent = day;
+      th.style.border = "1px solid black"; // Add border to header cells
       headerRow.appendChild(th);
    });
    table.appendChild(headerRow);
@@ -132,12 +132,15 @@ function generateCalendar(year, month) {
 
    // Empty cells before first day
    for (let i = 0; i < startCol; i++) {
-      row.appendChild(document.createElement("td"));
+      const td = document.createElement("td");
+      td.style.border = "1px solid black"; // Add border to empty cells
+      row.appendChild(td);
    }
 
    // Fill in the days of the month
    for (let i = startCol; i < 7; i++) {
       const cell = document.createElement("td");
+      cell.style.border = "1px solid black"; // Add border to day cells
       const currentDate = new Date(year, month, dayCounter);
       const currentDateString = `${year}-${String(month + 1).padStart(2, "0")}-${String(dayCounter).padStart(2, "0")}`;
       const eventsForDate = daysData.filter((event) => {
@@ -178,6 +181,7 @@ function generateCalendar(year, month) {
       row = document.createElement("tr");
       for (let i = 0; i < 7 && dayCounter <= daysInMonth; i++) {
          const cell = document.createElement("td");
+         cell.style.border = "1px solid black"; // Add border to day cells
          const currentDate = new Date(year, month, dayCounter);
          const currentDateString = `${year}-${String(month + 1).padStart(2, "0")}-${String(dayCounter).padStart(2, "0")}`;
          const eventsForDate = daysData.filter((event) => {
