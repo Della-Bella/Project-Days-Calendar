@@ -1,170 +1,273 @@
-// This is a placeholder file which shows how you can access functions and data defined in other files.
-// It can be loaded into index.html.
-// Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
-// You can't open the index.html file using a file:// URL.
-// // to run the code in the terminal we need to remove window.onload which run in the server https
-// // console.log(`${getGreeting()} - there are ${daysData.length} known days`);
+// web.mjs
 
-
-// import { getGreeting } from "./common.mjs";
 import daysData from "./days.json" with { type: "json" };
-import { generateCalendar } from "./calendar.mjs";
-import { generateICalContent } from "./generate-ical.mjs";
-
 
 // Month names array
 const Months = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
+   "January",
+   "February",
+   "March",
+   "April",
+   "May",
+   "June",
+   "July",
+   "August",
+   "September",
+   "October",
+   "November",
+   "December",
 ];
 
 // Function to create dropdown selectors
 function createSelectors() {
-    const container = document.createElement("div");
-    container.id = "selectors";
-    // Month dropdown
-    const monthSelect = document.createElement("select");
-    monthSelect.id = "monthSelect";
+   const container = document.createElement("div");
+   container.id = "selectors";
 
-    Months.forEach((month, index) => {
-        const option = document.createElement("option");
-        option.value = index;
-        option.textContent = month;
-        monthSelect.appendChild(option);
-    });
+   // Month dropdown
+   const monthSelect = document.createElement("select");
+   monthSelect.id = "monthSelect";
 
-    // Year dropdown
-    const yearSelect = document.createElement("select");
-    yearSelect.id = "yearSelect";
-    for (let year = 1900; year <= 2050; year++) {
-        const option = document.createElement("option");
-        option.value = year;
-        option.textContent = year;
-        yearSelect.appendChild(option);
-    }
+   Months.forEach((month, index) => {
+      const option = document.createElement("option");
+      option.value = index;
+      option.textContent = month;
+      monthSelect.appendChild(option);
+   });
 
-    // Navigation buttons
-    const prevButton = document.createElement("button");
-    prevButton.textContent = "← Previous Month";
-    prevButton.onclick = function () {
-        changeMonth(-1);
-    };
+   // Year dropdown
+   const yearSelect = document.createElement("select");
+   yearSelect.id = "yearSelect";
+   for (let year = 1900; year <= 2050; year++) {
+      const option = document.createElement("option");
+      option.value = year;
+      option.textContent = year;
+      yearSelect.appendChild(option);
+   }
 
-    const nextButton = document.createElement("button");
-    nextButton.textContent = "Next Month →";
-    nextButton.onclick = function () {
-        changeMonth(1);
-    };
+   // Navigation buttons
+   const prevButton = document.createElement("button");
+   prevButton.textContent = "← Previous Month";
+   prevButton.onclick = function () {
+      changeMonth(-1);
+   };
 
-    // Append elements
-    container.appendChild(prevButton);
-    container.appendChild(monthSelect);
-    container.appendChild(yearSelect);
-    container.appendChild(nextButton);
+   const nextButton = document.createElement("button");
+   nextButton.textContent = "Next Month →";
+   nextButton.onclick = function () {
+      changeMonth(1);
+   };
 
-    document.body.appendChild(container);
+   // Append elements
+   container.appendChild(prevButton);
+   container.appendChild(monthSelect);
+   container.appendChild(yearSelect);
+   container.appendChild(nextButton);
+
+   document.body.appendChild(container);
 }
 
 // Function to change the month
 function changeMonth(offset) {
-    let month = parseInt(document.getElementById("monthSelect").value);
-    let year = parseInt(document.getElementById("yearSelect").value);
+   let month = parseInt(document.getElementById("monthSelect").value);
+   let year = parseInt(document.getElementById("yearSelect").value);
 
-    month += offset;
+   month += offset;
 
-    if (month < 0) {
-        month = 11;
-        year--;
-    } else if (month > 11) {
-        month = 0;
-        year++;
-    }
+   if (month < 0) {
+      month = 11;
+      year--;
+   } else if (month > 11) {
+      month = 0;
+      year++;
+   }
 
-    document.getElementById("monthSelect").value = month;
-    document.getElementById("yearSelect").value = year;
+   document.getElementById("monthSelect").value = month;
+   document.getElementById("yearSelect").value = year;
 
-    createCalendar(year, month);
+   generateCalendar(year, month);
 }
 
 // Day names array
-const DaysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+const DaysOfWeek = [
+   "Monday",
+   "Tuesday",
+   "Wednesday",
+   "Thursday",
+   "Friday",
+   "Saturday",
+   "Sunday",
+];
 
+// Function to generate the calendar table with commemorative days
+function generateCalendar(year, month) {
+   let calendarContainer = document.getElementById("calendar");
 
-// Function to create the calendar table
-function createCalendar(year, month) {
-    let calendarContainer = document.getElementById("calendar");
+   if (!calendarContainer) {
+      calendarContainer = document.createElement("div");
+      calendarContainer.id = "calendar";
+      document.body.appendChild(calendarContainer);
+   }
 
-    if (!calendarContainer) {
-        calendarContainer = document.createElement("div");
-        calendarContainer.id = "calendar";
-        document.body.appendChild(calendarContainer);
-    }
+   calendarContainer.innerHTML = ""; // Clear previous calendar
+   const table = document.createElement("table");
 
-    calendarContainer.innerHTML = ""; // Clear previous calendar
-    const table = document.createElement("table");
+   // Header row for day names
+   const headerRow = document.createElement("tr");
+   DaysOfWeek.forEach((day) => {
+      const th = document.createElement("th");
+      th.textContent = day;
+      headerRow.appendChild(th);
+   });
+   table.appendChild(headerRow);
 
-    // Header row for day names
-    const headerRow = document.createElement("tr");
-    DaysOfWeek.forEach(day => {
-        const th = document.createElement("th");
-        th.textContent = day;
-        headerRow.appendChild(th);
-    });
-    table.appendChild(headerRow);
+   // Get first day of the month and total days
+   const firstDay = new Date(year, month, 1).getDay();
+   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-    // Get first day of the month and total days
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
+   let row = document.createElement("tr");
+   let dayCounter = 1;
 
-    let row = document.createElement("tr");
-    let dayCounter = 1;
+   // Adjust the starting column so the first day is on Monday
+   let startCol = (firstDay + 6) % 7; // Adjust to Monday as the first day of the week
 
-    // Empty cells before first day
-    for (let i = 0; i < (firstDay === 0 ? 6 : firstDay - 1); i++) {
-        row.appendChild(document.createElement("td"));
-    }
+   // Empty cells before first day
+   for (let i = 0; i < startCol; i++) {
+      row.appendChild(document.createElement("td"));
+   }
 
-    // Fill in the days of the month
-    for (let i = (firstDay === 0 ? 6 : firstDay - 1); i < 7; i++) {
-        const cell = document.createElement("td");
-        cell.textContent = dayCounter++;
-        row.appendChild(cell);
-    }
-    table.appendChild(row);
+   // Fill in the days of the month
+   for (let i = startCol; i < 7; i++) {
+      const cell = document.createElement("td");
+      const currentDate = new Date(year, month, dayCounter);
+      const currentDateString = `${year}-${String(month + 1).padStart(2, "0")}-${String(dayCounter).padStart(2, "0")}`;
+      const eventsForDate = daysData.filter((event) => {
+         const eventDate = new Date(
+            calculateDate(
+               year,
+               event.monthName,
+               event.dayName,
+               event.occurrence
+            )
+         );
+         const eventDateString = `${eventDate.getFullYear()}-${String(eventDate.getMonth() + 1).padStart(2, "0")}-${String(eventDate.getDate()).padStart(2, "0")}`;
+         return eventDateString === currentDateString;
+      });
 
-    // Continue adding rows
-    while (dayCounter <= daysInMonth) {
-        row = document.createElement("tr");
-        for (let i = 0; i < 7 && dayCounter <= daysInMonth; i++) {
-            const cell = document.createElement("td");
-            cell.textContent = dayCounter++;
-            row.appendChild(cell);
-        }
-        table.appendChild(row);
-    }
+      cell.textContent = dayCounter++;
 
-    // Append the table
-    calendarContainer.appendChild(table);
+      if (eventsForDate.length > 0) {
+         // Add event information to the cell
+         const eventList = document.createElement("ul");
+         eventList.classList.add("event-list"); // For styling
+
+         eventsForDate.forEach((event) => {
+            const eventItem = document.createElement("li");
+            eventItem.textContent = event.name; // Or a more detailed display
+
+            eventList.appendChild(eventItem);
+         });
+         cell.appendChild(eventList);
+      }
+
+      row.appendChild(cell);
+   }
+   table.appendChild(row);
+
+   // Continue adding rows
+   while (dayCounter <= daysInMonth) {
+      row = document.createElement("tr");
+      for (let i = 0; i < 7 && dayCounter <= daysInMonth; i++) {
+         const cell = document.createElement("td");
+         const currentDate = new Date(year, month, dayCounter);
+         const currentDateString = `${year}-${String(month + 1).padStart(2, "0")}-${String(dayCounter).padStart(2, "0")}`;
+         const eventsForDate = daysData.filter((event) => {
+            const eventDate = new Date(
+               calculateDate(
+                  year,
+                  event.monthName,
+                  event.dayName,
+                  event.occurrence
+               )
+            );
+            const eventDateString = `${eventDate.getFullYear()}-${String(eventDate.getMonth() + 1).padStart(2, "0")}-${String(eventDate.getDate()).padStart(2, "0")}`;
+            return eventDateString === currentDateString;
+         });
+
+         cell.textContent = dayCounter++;
+         if (eventsForDate.length > 0) {
+            // Add event information to the cell
+            const eventList = document.createElement("ul");
+            eventList.classList.add("event-list"); // For styling
+
+            eventsForDate.forEach((event) => {
+               const eventItem = document.createElement("li");
+               eventItem.textContent = event.name; // Or a more detailed display
+
+               eventList.appendChild(eventItem);
+            });
+            cell.appendChild(eventList);
+         }
+         row.appendChild(cell);
+      }
+      table.appendChild(row);
+   }
+
+   // Append the table
+   calendarContainer.appendChild(table);
 }
+
 // Event listener for dropdown changes
 document.addEventListener("change", () => {
-    const month = parseInt(document.getElementById("monthSelect").value);
-    const year = parseInt(document.getElementById("yearSelect").value);
-    createCalendar(year, month);
+   const month = parseInt(document.getElementById("monthSelect").value);
+   const year = parseInt(document.getElementById("yearSelect").value);
+   generateCalendar(year, month);
 });
+
+// Helper function to calculate dates based on occurrence
+function calculateDate(year, monthName, dayName, occurrence) {
+   const monthIndex = Months.indexOf(monthName);
+   const dayIndex = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+   ].indexOf(dayName);
+   let day = 1;
+   let count = 0;
+
+   while (new Date(year, monthIndex, day).getDay() !== dayIndex) {
+      day++;
+   }
+
+   if (occurrence === "second") {
+      day += 7;
+   } else if (occurrence === "third") {
+      day += 14;
+   } else if (occurrence === "last") {
+      let lastDay = new Date(year, monthIndex + 1, 0).getDate(); // Last day of the month
+      let tempDay = lastDay;
+      while (new Date(year, monthIndex, tempDay).getDay() !== dayIndex) {
+         tempDay--;
+      }
+      day = tempDay;
+   } else if (occurrence !== "first") {
+      throw new Error("Unrecognized occurrence: " + occurrence);
+   }
+   return new Date(year, monthIndex, day);
+}
 
 // Initialize everything on page load
 window.onload = function () {
-    // Display greeting message
-    // document.querySelector("body").innerText = `${getGreeting()} - there are ${daysData.length} known days`;
+   createSelectors(); // Create dropdowns
 
-    createSelectors(); // Create dropdowns
+   // Set current month and year
+   const currentDate = new Date();
+   document.getElementById("monthSelect").value = currentDate.getMonth();
+   document.getElementById("yearSelect").value = currentDate.getFullYear();
 
-    // Set current month and year
-    const currentDate = new Date();
-    document.getElementById("monthSelect").value = currentDate.getMonth();
-    document.getElementById("yearSelect").value = currentDate.getFullYear();
-
-    // Generate the calendar
-    createCalendar(currentDate.getFullYear(), currentDate.getMonth());
+   // Generate the calendar
+   generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
 };
