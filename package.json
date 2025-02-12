@@ -4,9 +4,7 @@
   "description": "Project: Days Calendar",
   "main": "web.mjs",
   "scripts": {
-    "start": "node web.mjs",
-    "dev": "nodemon web.mjs",
-    "test": "node test.js"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -23,7 +21,9 @@
     "jest": "^29.7.0"
   },
   "dependencies": {
-    "node-fetch": "^3.3.2",
+    "@babel/preset-env": "^7.26.8",
+    "babel-jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
     "uuid": "^11.0.5"
   }
 }
