@@ -1,9 +1,6 @@
 // generate-ical.mjs
-// You may need to adjust the import based on your specific setup
-// If running in a browser:
+import * as fs from "fs";
 import daysData from "./days.json" with { type: "json" };
-// If running in Node.js
-// import * as fs from 'fs';
 
 // Lookup tables for month and day names
 export const monthNameLookup = {
@@ -124,3 +121,8 @@ END:VEVENT
    return iCalendarContent;
 }
 
+// Generate and save the iCalendar file
+const iCalContent = generateICalContent(daysData);
+
+fs.writeFileSync("commemorative-days.ics", iCalContent);
+console.log("commemorative-days.ics file generated successfully!");
