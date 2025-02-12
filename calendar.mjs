@@ -20,7 +20,6 @@ export function generateCalendar(year, month) {
             td.textContent = "";
          } else {
             td.textContent = date;
-            td.textContent = date;
             date++;
          }
 
