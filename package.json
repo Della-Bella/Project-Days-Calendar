@@ -2,9 +2,10 @@
   "name": "project-days-calendar",
   "version": "1.0.0",
   "description": "Project: Days Calendar",
-  "main": "web.mjs",
+  "main": "jest.config.js",
+  "type": "module",
   "scripts": {
-    "test": "jest"
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest"
   },
   "repository": {
     "type": "git",
@@ -18,12 +19,7 @@
   },
   "homepage": "https://github.com/Della-Bella/Project-Days-Calendar#readme",
   "devDependencies": {
-    "jest": "^29.7.0"
-  },
-  "dependencies": {
-    "@babel/preset-env": "^7.26.8",
-    "babel-jest": "^29.7.0",
-    "ts-jest": "^29.2.5",
-    "uuid": "^11.0.5"
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
   }
 }
