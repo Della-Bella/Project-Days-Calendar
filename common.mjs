@@ -1,4 +1,7 @@
-import { specialDays } from "./days";
+// import { daysDatao } from "./days";
+import daysData from "./days.json" with { type: "json" };
+
+
 
 const DaysOfWeek = [
   "Monday",
@@ -91,7 +94,7 @@ export function generateCalendar(year, month) {
       2,
       "0"
     )}-${String(dayCounter).padStart(2, "0")}`;
-    const eventsForDate = specialDays.filter((event) => {
+    const eventsForDate = daysData.filter((event) => {
       const eventDate = new Date(
         calculateDate(year, event.monthName, event.dayName, event.occurrence)
       );
@@ -132,7 +135,7 @@ export function generateCalendar(year, month) {
         2,
         "0"
       )}-${String(dayCounter).padStart(2, "0")}`;
-      const eventsForDate = specialDays.filter((event) => {
+      const eventsForDate = daysData.filter((event) => {
         const eventDate = new Date(
           calculateDate(year, event.monthName, event.dayName, event.occurrence)
         );

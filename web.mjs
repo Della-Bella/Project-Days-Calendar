@@ -1,3 +1,6 @@
+// import { getGreeting } from "./common.mjs";
+import daysData from "./days.json" with { type: "json" };
+
 import { calculateNewMonthYear, generateCalendar, Months } from "./common.mjs";
 
 // Function to create dropdown selectors
