@@ -1,0 +1,25 @@
+{
+  "name": "project-days-calendar",
+  "version": "1.0.0",
+  "description": "Project: Days Calendar",
+  "main": "jest.config.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Della-Bella/Project-Days-Calendar.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Della-Bella/Project-Days-Calendar/issues"
+  },
+  "homepage": "https://github.com/Della-Bella/Project-Days-Calendar#readme",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}

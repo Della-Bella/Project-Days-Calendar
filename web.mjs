@@ -22,7 +22,7 @@ function createSelectors() {
   // Year dropdown
   const yearSelect = document.createElement("select");
   yearSelect.id = "yearSelect";
-  for (let year = 1900; year <= 2050; year++) {
+  for (let year = 1900; year <= 2100; year++) {
     const option = document.createElement("option");
     option.value = year;
     option.textContent = year;
