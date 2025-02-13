@@ -44,5 +44,5 @@ This project was a collaborative effort.
 We are responsible for code quality, functionality, and testing. We are able to explain any section of code.
 
 ## Live Demo
-[[Deployment Link]](https://calendar-cyf.netlify.app/)
+[calendar-cyf.netlify.app](https://calendar-cyf.netlify.app/)
 
