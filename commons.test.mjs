@@ -8,7 +8,6 @@ test("if month is March, result should be April if offset is +1", () => {
   expect(year).toEqual(2025);
 });
 
-// test/months.test.js
 test("Months array should have 12 months", () => {
   expect(Months.length).toEqual(12);
 });

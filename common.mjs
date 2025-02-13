@@ -1,7 +1,5 @@
-// import { daysDatao } from "./days";
+// import { daysData } from "./days";
 import daysData from "./days.json" with { type: "json" };
-
-
 
 const DaysOfWeek = [
   "Monday",
@@ -54,9 +52,10 @@ export function generateCalendar(year, month) {
     document.body.appendChild(calendarContainer);
   }
 
-  calendarContainer.innerHTML = ""; // Clear previous calendar
+  // Clear previous calendar
+  calendarContainer.innerHTML = ""; 
   const table = document.createElement("table");
-  table.style.borderCollapse = "collapse"; // Add this line
+  table.style.borderCollapse = "collapse"; 
 
   // Header row for day names
   const headerRow = document.createElement("tr");
@@ -76,8 +75,9 @@ export function generateCalendar(year, month) {
   let dayCounter = 1;
 
   // Adjust the starting column so the first day is on Monday
-  let startCol = (firstDay + 6) % 7; // Adjust to Monday as the first day of the week
+  // Adjust to Monday as the first day of the week
 
+  let startCol = (firstDay + 6) % 7; 
   // Empty cells before first day
   for (let i = 0; i < startCol; i++) {
     const td = document.createElement("td");
