@@ -18,6 +18,12 @@ function createSelectors() {
       marginBottom: "10px",
    });
 
+   // Month label
+   const monthLabel = document.createElement("label");
+   monthLabel.setAttribute("for", "monthSelect");
+   monthLabel.textContent = "Month: ";
+   monthLabel.style.marginRight = "5px";
+
    // Month dropdown
    const monthSelect = document.createElement("select");
    monthSelect.id = "monthSelect";
@@ -28,6 +34,13 @@ function createSelectors() {
       option.textContent = month;
       monthSelect.appendChild(option);
    });
+
+   // Year label
+   const yearLabel = document.createElement("label");
+   yearLabel.setAttribute("for", "yearSelect");
+   yearLabel.textContent = "Year: ";
+   yearLabel.style.marginLeft = "10px";
+   yearLabel.style.marginRight = "5px";
 
    // Year dropdown
    const yearSelect = document.createElement("select");
@@ -63,23 +76,26 @@ function createSelectors() {
       changeMonthInDom(1);
    };
 
-   // Style the buttons
    const buttonStyle = {
-      padding: "8px 12px",
-      fontSize: "16px",
-      backgroundColor: "#4CAF50",
+      backgroundColor: "#2E7D32",
       color: "white",
+      fontWeight: "bold",
+      padding: "8px 12px",
       border: "none",
       borderRadius: "4px",
       cursor: "pointer",
       margin: "0 5px",
+      fontSize: "16px",
    };
+
    Object.assign(prevButton.style, buttonStyle);
    Object.assign(nextButton.style, buttonStyle);
 
    // Append elements
    container.appendChild(prevButton);
+   container.appendChild(monthLabel);
    container.appendChild(monthSelect);
+   container.appendChild(yearLabel);
    container.appendChild(yearSelect);
    container.appendChild(nextButton);
 
@@ -132,3 +148,4 @@ window.onload = function () {
    // Generate the calendar
    generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
 };
+
